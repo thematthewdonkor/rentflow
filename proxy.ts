@@ -11,9 +11,9 @@ export async function proxy(request: NextRequest) {
 
   const isAuthRoute = authRoutes.includes(pathname);
 
-  if (session && isAuthRoute) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
+  // if (session && isAuthRoute) {
+  //   return NextResponse.redirect(new URL("/", request.url));
+  // }
 
   if (!session && !isAuthRoute) {
     const signInUrl = new URL("/sign-in", request.url);
