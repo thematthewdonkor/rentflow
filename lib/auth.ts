@@ -16,7 +16,7 @@ export const auth = betterAuth({
 
     sendResetPassword: async ({ user, url }) => {
       void resend.emails.send({
-        from: "Acme <onboarding@example.com>",
+        from: "Rentflow <thematthewdonkor@gmail.com>",
         to: user.email,
         subject: "Reset your password",
         html: `Click <a href="${url}">here</a> to reset your password.`,
