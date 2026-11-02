@@ -106,6 +106,24 @@ export const property = pgTable("property", {
     .notNull(),
 });
 
+export const customer = pgTable("customer", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: text("name").notNull(),
+  propertyId: uuid("property_id").notNull(),
+  agentId: uuid("agent_id").notNull(),
+  profileImage: text("profile_image"),
+  email: text("email"),
+  phone: text("phone").notNull(),
+  note: text("note"),
+  address: text("address"),
+  country: text("country").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .notNull(),
+});
+
 export const relations = defineRelations(
   { user, session, account, verification },
   (r) => ({
