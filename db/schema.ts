@@ -1,5 +1,15 @@
 import { defineRelations } from "drizzle-orm";
-import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  pgEnum,
+  text,
+  timestamp,
+  boolean,
+  index,
+  uuid,
+  numeric,
+  integer,
+} from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -72,6 +82,29 @@ export const verification = pgTable(
   },
   (table) => [index("verification_identifier_idx").on(table.identifier)],
 );
+
+export const propertyFor = pgEnum("property_for", ["RENT", "BUY"]);
+
+export const property = pgTable("property", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: text("name").notNull(),
+  categoryId: uuid("category_id").notNull(),
+  images: text("images").array().notNull(),
+  price: numeric("price").notNull(),
+  managerId: uuid("manager_id").notNull(),
+  propertyFor: propertyFor("property_for").notNull(),
+  bedrooms: integer("bedrooms"),
+  bathrooms: integer("bathrooms"),
+  squareFeet: text("square_feet"),
+  floor: text("floor"),
+  address: text("address").notNull(),
+  country: text("country").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .notNull(),
+});
 
 export const relations = defineRelations(
   { user, session, account, verification },
